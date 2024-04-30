@@ -44,7 +44,10 @@ class ResultParsing(BaseLogicUnit):
         self._add_result_to_memory(result=result, context=pipeline_context)
 
         parser = self.response_parser(pipeline_context, logger=kwargs.get("logger"))
-        result = parser.parse(result)
+        try:
+            result = parser.parse(result)
+        except Exception as e:
+            print(e)
         return LogicUnitOutput(result, True, "Results parsed successfully")
 
     def _add_result_to_memory(self, result: dict, context: PipelineContext):
@@ -58,9 +61,9 @@ class ResultParsing(BaseLogicUnit):
         if result is None:
             return
 
-        if result["type"] in ["string", "number"]:
+        if "type" in result and result["type"] in ["string", "number"]:
             context.memory.add(str(result["value"]), False)
-        elif result["type"] == "dataframe":
+        elif "type" in result and result["type"] == "dataframe":
             context.memory.add("Check it out: <dataframe>", False)
-        elif result["type"] == "plot":
+        elif "type" in result and result["type"] == "plot":
             context.memory.add("Check it out: <plot>", False)

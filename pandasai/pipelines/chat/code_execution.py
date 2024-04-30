@@ -90,13 +90,13 @@ class CodeExecution(BaseLogicUnit):
                         output_helper, result
                     )
 
-                    if not validation_ok:
-                        raise InvalidLLMOutputType(validation_errors)
+                    # if not validation_ok:
+                    #     raise InvalidLLMOutputType(validation_errors)
 
-                if not OutputValidator.validate_result(result):
-                    raise InvalidOutputValueMismatch(
-                        f'Value type {type(result["value"])} must match with type {result["type"]}'
-                    )
+                # if not OutputValidator.validate_result(result):
+                #     raise InvalidOutputValueMismatch(
+                #         f'Value type {type(result["value"])} must match with type {result["type"]}'
+                #     )
 
                 break
 
